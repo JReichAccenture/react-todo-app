@@ -6,7 +6,7 @@
     "prettier.proseWrap": "preserve",
     "prettier.quoteProps": "as-needed",
     "prettier.requirePragma": false,
-    "prettier.semi": false,
+    "prettier.semi": true,
     "prettier.singleQuote": true,
     "prettier.tabWidth": 4,
     "prettier.trailingComma": "es5",
