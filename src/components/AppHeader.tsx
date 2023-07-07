@@ -1,5 +1,8 @@
 import { Button, InputLabel, MenuItem, Select, Stack } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
+import MySelect from './MySelect';
+import AppContent from './AppContent';
+import TodoModal from './TodoModal';
 
 function AppHeader() {
     return (
@@ -8,21 +11,10 @@ function AppHeader() {
                 <Button variant="contained" type="button">
                     Add task
                 </Button>
-                <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Age</InputLabel>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={10}
-                        label="Age"
-                        onChange={() => {}}
-                    >
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
-                    </Select>
-                </FormControl>
+                <MySelect></MySelect>
             </Stack>
+            <AppContent></AppContent>
+            <TodoModal></TodoModal>
         </div>
     );
 }
