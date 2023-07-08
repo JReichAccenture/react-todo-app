@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import React, { useState, Dispatch, SetStateAction } from 'react';
 import MySelect from './MySelect';
+import { TaskStatus, Task } from '../classes/Task';
 
 interface ModalProperties {
     isOpen: boolean;
@@ -28,7 +29,7 @@ function TodoModal(props: ModalProperties) {
     // };
 
     const [title, setTitle] = useState('');
-    const [status, setStatus] = useState('incomplete');
+    const [status, setStatus] = useState(TaskStatus.Incomplete);
 
     const handleClickOpen = () => {
         props.openModal(true);
@@ -47,7 +48,8 @@ function TodoModal(props: ModalProperties) {
     };
 
     const submitData = () => {
-        console.log(title, status);
+        const task = new Task(title, status as TaskStatus);
+        console.log(task);
         handleClose();
     };
 
