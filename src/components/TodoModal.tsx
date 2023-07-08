@@ -11,10 +11,12 @@ import {
 import React, { useState, Dispatch, SetStateAction } from 'react';
 import MySelect from './MySelect';
 import { TaskStatus, Task } from '../classes/Task';
+import { useTaskState } from '../hooks/app_state';
 
 interface ModalProperties {
     isOpen: boolean;
     openModal: Dispatch<SetStateAction<boolean>>;
+    createTask: (newTask: Task) => void;
 }
 
 function TodoModal(props: ModalProperties) {
@@ -49,7 +51,7 @@ function TodoModal(props: ModalProperties) {
 
     const submitData = () => {
         const task = new Task(title, status as TaskStatus);
-        console.log(task);
+        props.createTask(task);
         handleClose();
     };
 

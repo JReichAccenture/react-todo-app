@@ -4,8 +4,13 @@ import MySelect from './MySelect';
 import AppContent from './AppContent';
 import TodoModal from './TodoModal';
 import React from 'react';
+import { Task } from '../classes/Task';
 
-function AppHeader() {
+interface AppHeaderProperties {
+    createTask: (newTask: Task) => void;
+}
+
+function AppHeader(props: AppHeaderProperties) {
     const [isModalOpen, openModal] = React.useState(false);
 
     return (
@@ -14,6 +19,7 @@ function AppHeader() {
                 <TodoModal
                     isOpen={isModalOpen}
                     openModal={openModal}
+                    createTask={props.createTask}
                 ></TodoModal>
                 <MySelect></MySelect>
             </Stack>
