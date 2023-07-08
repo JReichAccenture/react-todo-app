@@ -5,9 +5,11 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
+    MenuItem,
     TextField,
 } from '@mui/material';
 import React from 'react';
+import MySelect from './MySelect';
 
 function TodoModal() {
     const [open, setOpen] = React.useState(false);
@@ -23,30 +25,55 @@ function TodoModal() {
     {
         return (
             <div>
-                <Button variant="outlined" onClick={handleClickOpen}>
-                    Open form dialog
+                <Button
+                    variant="contained"
+                    type="button"
+                    onClick={handleClickOpen}
+                >
+                    Add Task
                 </Button>
                 <Dialog open={open} onClose={handleClose}>
-                    <DialogTitle>Subscribe</DialogTitle>
+                    <DialogTitle>Add TODO</DialogTitle>
                     <DialogContent>
-                        <DialogContentText>
-                            To subscribe to this website, please enter your
-                            email address here. We will send updates
-                            occasionally.
-                        </DialogContentText>
                         <TextField
                             autoFocus
                             margin="dense"
                             id="name"
-                            label="Email Address"
-                            type="email"
+                            label="Title"
                             fullWidth
                             variant="standard"
                         />
+                        <TextField
+                            id="status"
+                            select
+                            label="Status"
+                            defaultValue="Incomplete"
+                            fullWidth
+                            variant="standard"
+                        >
+                            <MenuItem key="incomplete" value="incomplete">
+                                Incomplete
+                            </MenuItem>
+                            <MenuItem key="done" value="done">
+                                Done
+                            </MenuItem>
+                        </TextField>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={handleClose}>Cancel</Button>
-                        <Button onClick={handleClose}>Subscribe</Button>
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            onClick={handleClose}
+                        >
+                            Add task
+                        </Button>
+                        <Button
+                            variant="outlined"
+                            type="button"
+                            onClick={handleClose}
+                        >
+                            Cancel
+                        </Button>
                     </DialogActions>
                 </Dialog>
             </div>

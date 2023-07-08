@@ -8,13 +8,10 @@ function AppHeader() {
     return (
         <div>
             <Stack spacing={2} direction={'row'}>
-                <Button variant="contained" type="button">
-                    Add task
-                </Button>
+                <TodoModal></TodoModal>
                 <MySelect></MySelect>
             </Stack>
             <AppContent></AppContent>
-            <TodoModal></TodoModal>
         </div>
     );
 }
