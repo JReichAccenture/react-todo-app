@@ -8,18 +8,47 @@ import {
     MenuItem,
     TextField,
 } from '@mui/material';
-import React from 'react';
+import React, { useState, Dispatch, SetStateAction } from 'react';
 import MySelect from './MySelect';
 
-function TodoModal() {
-    const [open, setOpen] = React.useState(false);
+interface ModalProperties {
+    isOpen: boolean;
+    openModal: Dispatch<SetStateAction<boolean>>;
+}
+
+function TodoModal(props: ModalProperties) {
+    // const [open, setOpen] = React.useState(false);
+
+    // const handleClickOpen = () => {
+    //     setOpen(true);
+    // };
+
+    // const handleClose = () => {
+    //     setOpen(false);
+    // };
+
+    const [title, setTitle] = useState('');
+    const [status, setStatus] = useState('incomplete');
 
     const handleClickOpen = () => {
-        setOpen(true);
+        props.openModal(true);
     };
 
     const handleClose = () => {
-        setOpen(false);
+        props.openModal(false);
+    };
+
+    const onTitleChange = (event: any) => {
+        setTitle(event.target.value);
+    };
+
+    const onStatusChange = (event: any) => {
+        setStatus(event.target.value);
+    };
+
+    const submitData = () => {
+        console.log(title, status);
+        handleClose();
     };
 
     {
@@ -32,7 +61,7 @@ function TodoModal() {
                 >
                     Add Task
                 </Button>
-                <Dialog open={open} onClose={handleClose}>
+                <Dialog open={props.isOpen} onClose={handleClose}>
                     <DialogTitle>Add TODO</DialogTitle>
                     <DialogContent>
                         <TextField
@@ -42,14 +71,17 @@ function TodoModal() {
                             label="Title"
                             fullWidth
                             variant="standard"
+                            value={title}
+                            onChange={onTitleChange}
                         />
                         <TextField
                             id="status"
                             select
                             label="Status"
-                            defaultValue="Incomplete"
                             fullWidth
                             variant="standard"
+                            value={status}
+                            onChange={onStatusChange}
                         >
                             <MenuItem key="incomplete" value="incomplete">
                                 Incomplete
@@ -63,7 +95,7 @@ function TodoModal() {
                         <Button
                             type="submit"
                             variant="contained"
-                            onClick={handleClose}
+                            onClick={submitData}
                         >
                             Add task
                         </Button>
