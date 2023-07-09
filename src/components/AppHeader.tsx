@@ -1,7 +1,5 @@
-import { Button, InputLabel, MenuItem, Select, Stack } from '@mui/material';
-import FormControl from '@mui/material/FormControl';
+import { Stack } from '@mui/material';
 import MySelect from './MySelect';
-import AppContent from './AppContent';
 import TodoModal from './TodoModal';
 import React from 'react';
 import { Task } from '../classes/Task';
@@ -23,7 +21,6 @@ function AppHeader(props: AppHeaderProperties) {
                 ></TodoModal>
                 <MySelect></MySelect>
             </Stack>
-            <AppContent></AppContent>
         </div>
     );
 }
