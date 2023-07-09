@@ -12,7 +12,12 @@ function App() {
         <div className="wrapper">
             <PageTitle></PageTitle>
             <AppHeader createTask={createTask}></AppHeader>
-            <TodoList tasks={tasks} deleteTask={deleteTask}></TodoList>
+            <TodoList
+                tasks={tasks}
+                deleteTask={deleteTask}
+                getTask={getTask}
+                updateTask={updateTask}
+            ></TodoList>
         </div>
     );
 }

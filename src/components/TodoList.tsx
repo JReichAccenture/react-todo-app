@@ -7,18 +7,20 @@ import {
     ListItemIcon,
     ListItemText,
 } from '@mui/material';
-import React from 'react';
 import { Task } from '../classes/Task';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
+import TodoModal from './TodoModal';
 
 export interface TodoListProps {
     tasks: Task[];
     deleteTask: (id: number) => void;
+    getTask: (id: number) => Task | undefined;
+    updateTask: (updatedTask: Task) => void;
 }
 
 function TodoList(props: TodoListProps) {
-    const { tasks, deleteTask } = props;
+    const { tasks, deleteTask, getTask, updateTask } = props;
 
     return (
         <Box
@@ -44,6 +46,12 @@ function TodoList(props: TodoListProps) {
                                 >
                                     <DeleteIcon />
                                 </IconButton>
+                                <TodoModal
+                                    create={false}
+                                    taskId={task.id}
+                                    getTask={getTask}
+                                    updateTask={updateTask}
+                                ></TodoModal>
                             </ListItem>
                             <Divider></Divider>
                         </>

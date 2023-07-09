@@ -1,7 +1,6 @@
 import { Stack } from '@mui/material';
 import MySelect from './MySelect';
 import TodoModal from './TodoModal';
-import React from 'react';
 import { Task } from '../classes/Task';
 
 interface AppHeaderProperties {
@@ -9,15 +8,12 @@ interface AppHeaderProperties {
 }
 
 function AppHeader(props: AppHeaderProperties) {
-    const [isModalOpen, openModal] = React.useState(false);
-
     return (
         <div>
             <Stack spacing={2} direction={'row'}>
                 <TodoModal
-                    isOpen={isModalOpen}
-                    openModal={openModal}
                     createTask={props.createTask}
+                    create={true}
                 ></TodoModal>
                 <MySelect></MySelect>
             </Stack>

@@ -3,42 +3,44 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    DialogContentText,
     DialogTitle,
     MenuItem,
     TextField,
 } from '@mui/material';
-import React, { useState, Dispatch, SetStateAction } from 'react';
-import MySelect from './MySelect';
+import React, { useState, useEffect } from 'react';
 import { TaskStatus, Task } from '../classes/Task';
-import { useTaskState } from '../hooks/app_state';
 
 interface ModalProperties {
-    isOpen: boolean;
-    openModal: Dispatch<SetStateAction<boolean>>;
-    createTask: (newTask: Task) => void;
+    createTask?: (newTask: Task) => void;
+    create: boolean;
+    taskId?: number;
+    getTask?: (taskId: number) => Task | undefined;
+    updateTask?: (updatedTask: Task) => void;
 }
 
 function TodoModal(props: ModalProperties) {
-    // const [open, setOpen] = React.useState(false);
-
-    // const handleClickOpen = () => {
-    //     setOpen(true);
-    // };
-
-    // const handleClose = () => {
-    //     setOpen(false);
-    // };
+    const [open, setOpen] = React.useState(false);
 
     const [title, setTitle] = useState('');
     const [status, setStatus] = useState(TaskStatus.Incomplete);
 
+    useEffect(() => {
+        if (!props.create && props.taskId && props.getTask) {
+            const task = props.getTask(props.taskId) as Task;
+            setTitle(task.title);
+            setStatus(task.status);
+        }
+        /***???? */
+    }, []);
+
     const handleClickOpen = () => {
-        props.openModal(true);
+        setOpen(true);
     };
 
     const handleClose = () => {
-        props.openModal(false);
+        setTitle('');
+        setStatus(TaskStatus.Incomplete);
+        setOpen(false);
     };
 
     const onTitleChange = (event: any) => {
@@ -50,8 +52,13 @@ function TodoModal(props: ModalProperties) {
     };
 
     const submitData = () => {
-        const task = new Task(title, status as TaskStatus);
-        props.createTask(task);
+        if (props.create && props.createTask) {
+            const task = new Task(title, status as TaskStatus);
+            props.createTask(task);
+        } else if (props.updateTask) {
+            props.updateTask({ id: props.taskId!, title, status });
+        }
+
         handleClose();
     };
 
@@ -63,10 +70,12 @@ function TodoModal(props: ModalProperties) {
                     type="button"
                     onClick={handleClickOpen}
                 >
-                    Add Task
+                    {props.create ? 'Add Task' : 'Update task'}
                 </Button>
-                <Dialog open={props.isOpen} onClose={handleClose}>
-                    <DialogTitle>Add TODO</DialogTitle>
+                <Dialog open={open} onClose={handleClose}>
+                    <DialogTitle>
+                        {props.create ? 'Add TODO' : 'Update'}
+                    </DialogTitle>
                     <DialogContent>
                         <TextField
                             autoFocus
@@ -101,7 +110,7 @@ function TodoModal(props: ModalProperties) {
                             variant="contained"
                             onClick={submitData}
                         >
-                            Add task
+                            {props.create ? 'Add task' : 'Update task'}
                         </Button>
                         <Button
                             variant="outlined"
