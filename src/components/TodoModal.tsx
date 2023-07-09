@@ -35,6 +35,8 @@ function TodoModal(props: ModalProperties) {
     };
 
     const handleClose = () => {
+        setTitle('');
+        setStatus(TaskStatus.Incomplete);
         setOpen(false);
     };
 
