@@ -7,8 +7,10 @@ import {
     MenuItem,
     TextField,
 } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { TaskStatus, Task } from '../classes/Task';
+import EditIcon from '@mui/icons-material/Edit';
+import IconButton from '@mui/material/IconButton';
 
 interface ModalProperties {
     createTask?: (newTask: Task) => void;
@@ -19,27 +21,20 @@ interface ModalProperties {
 }
 
 function TodoModal(props: ModalProperties) {
-    const [open, setOpen] = React.useState(false);
-
+    const [open, setOpen] = useState(false);
     const [title, setTitle] = useState('');
     const [status, setStatus] = useState(TaskStatus.Incomplete);
 
-    useEffect(() => {
+    const handleClickOpen = () => {
+        setOpen(true);
         if (!props.create && props.taskId && props.getTask) {
             const task = props.getTask(props.taskId) as Task;
             setTitle(task.title);
             setStatus(task.status);
         }
-        /***???? */
-    }, []);
-
-    const handleClickOpen = () => {
-        setOpen(true);
     };
 
     const handleClose = () => {
-        setTitle('');
-        setStatus(TaskStatus.Incomplete);
         setOpen(false);
     };
 
@@ -65,13 +60,24 @@ function TodoModal(props: ModalProperties) {
     {
         return (
             <div>
-                <Button
-                    variant="contained"
-                    type="button"
-                    onClick={handleClickOpen}
-                >
-                    {props.create ? 'Add Task' : 'Update task'}
-                </Button>
+                {props.create ? (
+                    <Button
+                        variant="contained"
+                        type="button"
+                        onClick={handleClickOpen}
+                    >
+                        {props.create ? 'Add Task' : 'Update task'}
+                    </Button>
+                ) : (
+                    <IconButton
+                        onClick={handleClickOpen}
+                        edge="end"
+                        aria-label="delete"
+                    >
+                        <EditIcon />
+                    </IconButton>
+                )}
+
                 <Dialog open={open} onClose={handleClose}>
                     <DialogTitle>
                         {props.create ? 'Add TODO' : 'Update'}
