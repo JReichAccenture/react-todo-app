@@ -9,13 +9,16 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { Task } from '../classes/Task';
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
 
 export interface TodoListProps {
     tasks: Task[];
+    deleteTask: (id: number) => void;
 }
 
 function TodoList(props: TodoListProps) {
-    const { tasks } = props;
+    const { tasks, deleteTask } = props;
 
     return (
         <Box
@@ -34,6 +37,13 @@ function TodoList(props: TodoListProps) {
                                     <ListItemIcon></ListItemIcon>
                                     <ListItemText primary={task.title} />
                                 </ListItemButton>
+                                <IconButton
+                                    onClick={() => deleteTask(task.id)}
+                                    edge="end"
+                                    aria-label="delete"
+                                >
+                                    <DeleteIcon />
+                                </IconButton>
                             </ListItem>
                             <Divider></Divider>
                         </>
