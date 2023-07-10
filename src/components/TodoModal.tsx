@@ -4,13 +4,13 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
-    MenuItem,
     TextField,
 } from '@mui/material';
 import { useState } from 'react';
 import { TaskStatus, Task } from '../classes/Task';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
+import MySelect from './MySelect';
 
 interface ModalProperties {
     createTask?: (newTask: Task) => void;
@@ -44,8 +44,8 @@ function TodoModal(props: ModalProperties) {
         setTitle(event.target.value);
     };
 
-    const onStatusChange = (event: any) => {
-        setStatus(event.target.value);
+    const onStatusChange = (status: TaskStatus) => {
+        setStatus(status);
     };
 
     const submitData = () => {
@@ -95,22 +95,11 @@ function TodoModal(props: ModalProperties) {
                             value={title}
                             onChange={onTitleChange}
                         />
-                        <TextField
-                            id="status"
-                            select
-                            label="Status"
-                            fullWidth
-                            variant="standard"
-                            value={status}
-                            onChange={onStatusChange}
-                        >
-                            <MenuItem key="incomplete" value="incomplete">
-                                Incomplete
-                            </MenuItem>
-                            <MenuItem key="done" value="done">
-                                Done
-                            </MenuItem>
-                        </TextField>
+                        <MySelect
+                            selectionItems={[...Object.values(TaskStatus)]}
+                            defaultValue={status}
+                            setValue={onStatusChange}
+                        ></MySelect>
                     </DialogContent>
                     <DialogActions>
                         <Button

@@ -1,47 +1,36 @@
-import {
-    Box,
-    FormControl,
-    InputLabel,
-    MenuItem,
-    Select,
-    SelectChangeEvent,
-} from '@mui/material';
-import React from 'react';
+import { MenuItem, TextField } from '@mui/material';
+import { ChangeEvent } from 'react';
+import { TaskStatus } from '../classes/Task';
 
-function MySelect() {
-    const [taskType, settaskType] = React.useState('all');
+interface MySelectProperties {
+    selectionItems: Array<any>;
+    defaultValue: string | TaskStatus;
+    setValue: (newValue: any) => void;
+}
 
-    const handleChange = (event: SelectChangeEvent) => {
-        settaskType(event.target.value as string);
+function MySelect(props: MySelectProperties) {
+    const handleChange = (
+        event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
+        props.setValue(event.target.value as string);
     };
 
-    const list = ['all, incomplete, complete'];
-
     return (
-        <Box sx={{ minWidth: 120 }}>
-            <FormControl fullWidth>
-                {
-                    <InputLabel id="demo-simple-select-label">
-                        Task type
-                    </InputLabel>
-                }
-                <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={taskType}
-                    label="taskType"
-                    onChange={handleChange}
-                    defaultValue="all"
-                >
-                    {/* {list.map((item) => (
-                        <MenuItem value={item}>{item}</MenuItem>
-                    ))} */}
-                    <MenuItem value={10}>all</MenuItem>
-                    <MenuItem value={20}>incomplete</MenuItem>
-                    <MenuItem value={30}>complete</MenuItem>
-                </Select>
-            </FormControl>
-        </Box>
+        <TextField
+            id="status"
+            select
+            label="Status"
+            fullWidth
+            variant="standard"
+            value={props.defaultValue}
+            onChange={handleChange}
+        >
+            {props.selectionItems.map((item) => (
+                <MenuItem key={item} value={item}>
+                    {item}
+                </MenuItem>
+            ))}
+        </TextField>
     );
 }
 

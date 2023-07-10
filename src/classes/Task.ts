@@ -10,3 +10,5 @@ export enum TaskStatus {
     Incomplete = 'incomplete',
     Done = 'done',
 }
+
+export type TaskFilterOption = TaskStatus | 'all';

@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Task } from '../classes/Task';
+import { Task, TaskFilterOption } from '../classes/Task';
 
 export const useTaskState = () => {
     const [tasks, setTasks] = useState<Task[]>([]);
+    const [taskFilterOption, setTaskfilterOption] =
+        useState<TaskFilterOption>('all');
 
     useEffect(() => {
         console.log('tasks ', tasks);
+        console.log('taskfilteroption ', taskFilterOption);
     });
 
     const updateTask = (updatedTask: Task) => {
@@ -32,11 +35,22 @@ export const useTaskState = () => {
         setTasks([...tasks, newTask]);
     };
 
+    const getFilteredTasks = (option: TaskFilterOption) => {
+        if (option === 'all') return tasks;
+        const filteredTasks = tasks.filter((task) => {
+            return task.status === option;
+        });
+        return filteredTasks;
+    };
+
     return {
         tasks,
         updateTask,
         deleteTask,
         getTask,
         createTask,
+        taskFilterOption,
+        setTaskfilterOption,
+        getFilteredTasks,
     };
 };
