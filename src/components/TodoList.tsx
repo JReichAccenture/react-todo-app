@@ -7,10 +7,11 @@ import {
     ListItemIcon,
     ListItemText,
 } from '@mui/material';
-import { Task } from '../classes/Task';
+import { Task, TaskStatus } from '../classes/Task';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import TodoModal from './TodoModal';
+import Checkbox from '@mui/material/Checkbox';
 
 export interface TodoListProps {
     tasks: Task[];
@@ -21,6 +22,15 @@ export interface TodoListProps {
 
 function TodoList(props: TodoListProps) {
     const { tasks, deleteTask, getTask, updateTask } = props;
+
+    function onCheckboxChange(event: any, task: Task) {
+        updateTask({
+            ...task,
+            status: event.target.checked
+                ? TaskStatus.Done
+                : TaskStatus.Incomplete,
+        });
+    }
 
     return (
         <Box
@@ -35,6 +45,16 @@ function TodoList(props: TodoListProps) {
                     return (
                         <>
                             <ListItem key={task.id} disablePadding>
+                                <Checkbox
+                                    checked={
+                                        task.status === TaskStatus.Done
+                                            ? true
+                                            : false
+                                    }
+                                    onChange={(event) =>
+                                        onCheckboxChange(event, task)
+                                    }
+                                />
                                 <ListItemButton>
                                     <ListItemIcon></ListItemIcon>
                                     <ListItemText primary={task.title} />
