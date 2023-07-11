@@ -11,6 +11,7 @@ import { TaskStatus, Task } from '../classes/Task';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 import MySelect from './MySelect';
+import { DatePicker } from '@mui/x-date-pickers';
 
 interface ModalProperties {
     createTask?: (newTask: Task) => void;
@@ -21,9 +22,10 @@ interface ModalProperties {
 }
 
 function TodoModal(props: ModalProperties) {
-    const [open, setOpen] = useState(false);
-    const [title, setTitle] = useState('');
-    const [status, setStatus] = useState(TaskStatus.Incomplete);
+    const [open, setOpen] = useState<boolean>(false);
+    const [title, setTitle] = useState<string>('');
+    const [status, setStatus] = useState<TaskStatus>(TaskStatus.Incomplete);
+    const [dueDate, setDueDate] = useState<Date | undefined | null>(null);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -31,6 +33,7 @@ function TodoModal(props: ModalProperties) {
             const task = props.getTask(props.taskId) as Task;
             setTitle(task.title);
             setStatus(task.status);
+            setDueDate(task.dueDate);
         }
     };
 
@@ -38,6 +41,7 @@ function TodoModal(props: ModalProperties) {
         setTitle('');
         setStatus(TaskStatus.Incomplete);
         setOpen(false);
+        setDueDate(null);
     };
 
     const onTitleChange = (event: any) => {
@@ -48,12 +52,16 @@ function TodoModal(props: ModalProperties) {
         setStatus(status);
     };
 
+    const onDueDateChange = (date: Date | null | undefined) => {
+        setDueDate(date);
+    };
+
     const submitData = () => {
         if (props.create && props.createTask) {
-            const task = new Task(title, status as TaskStatus);
+            const task = new Task(title, status as TaskStatus, dueDate);
             props.createTask(task);
         } else if (props.updateTask) {
-            props.updateTask({ id: props.taskId!, title, status });
+            props.updateTask({ id: props.taskId!, title, status, dueDate });
         }
 
         handleClose();
@@ -100,6 +108,11 @@ function TodoModal(props: ModalProperties) {
                             defaultValue={status}
                             setValue={onStatusChange}
                         ></MySelect>
+                        <DatePicker
+                            key={'todo'}
+                            value={dueDate}
+                            onChange={onDueDateChange}
+                        ></DatePicker>
                     </DialogContent>
                     <DialogActions>
                         <Button

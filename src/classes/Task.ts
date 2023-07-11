@@ -2,7 +2,8 @@ export class Task {
     id = new Date().getTime();
     constructor(
         public title: string,
-        public status: TaskStatus
+        public status: TaskStatus,
+        public dueDate: Date | null | undefined
     ) {}
 }
 
