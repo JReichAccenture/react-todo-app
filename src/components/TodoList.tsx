@@ -12,16 +12,17 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import TodoModal from './TodoModal';
 import Checkbox from '@mui/material/Checkbox';
+import { useContext } from 'react';
+import { MyContext } from '../context';
 
-export interface TodoListProps {
-    tasks: Task[];
-    deleteTask: (id: number) => void;
-    getTask: (id: number) => Task | undefined;
-    updateTask: (updatedTask: Task) => void;
-}
-
-function TodoList(props: TodoListProps) {
-    const { tasks, deleteTask, getTask, updateTask } = props;
+function TodoList() {
+    const {
+        updateTask,
+        deleteTask,
+        getTask,
+        taskFilterOption,
+        getFilteredTasks,
+    } = useContext(MyContext);
 
     function onCheckboxChange(event: any, task: Task) {
         updateTask({
@@ -41,7 +42,7 @@ function TodoList(props: TodoListProps) {
             }}
         >
             <List>
-                {tasks.map((task) => {
+                {getFilteredTasks(taskFilterOption).map((task) => {
                     return (
                         <>
                             <ListItem key={task.id} disablePadding>

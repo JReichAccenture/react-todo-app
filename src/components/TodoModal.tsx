@@ -6,15 +6,16 @@ import {
     DialogTitle,
     TextField,
 } from '@mui/material';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { TaskStatus, Task } from '../classes/Task';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 import MySelect from './MySelect';
 import { DatePicker } from '@mui/x-date-pickers';
+import { MyContext } from '../context';
 
 interface ModalProperties {
-    createTask?: (newTask: Task) => void;
+    //createTask?: (newTask: Task) => void;
     create: boolean;
     taskId?: number;
     getTask?: (taskId: number) => Task | undefined;
@@ -26,6 +27,8 @@ function TodoModal(props: ModalProperties) {
     const [title, setTitle] = useState<string>('');
     const [status, setStatus] = useState<TaskStatus>(TaskStatus.Incomplete);
     const [dueDate, setDueDate] = useState<Date | undefined | null>(null);
+
+    const { createTask } = useContext(MyContext);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -57,9 +60,9 @@ function TodoModal(props: ModalProperties) {
     };
 
     const submitData = () => {
-        if (props.create && props.createTask) {
+        if (props.create) {
             const task = new Task(title, status as TaskStatus, dueDate);
-            props.createTask(task);
+            createTask(task);
         } else if (props.updateTask) {
             props.updateTask({ id: props.taskId!, title, status, dueDate });
         }
